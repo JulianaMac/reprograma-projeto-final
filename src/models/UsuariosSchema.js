@@ -7,7 +7,7 @@ const UsuariosSchema = new Schema({
   email: { type: String, required: true },
   foto: { type: String, required: true },
   senha: { type: String, required: true },
-  pontos_disponiveis: { type: String},
+  pontos_disponiveis: { type: Number},
   cupons: [CuponsSchema],
 })
 

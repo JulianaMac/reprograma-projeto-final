@@ -12,14 +12,37 @@ const addCupom = async (request, response) => {
     const novoCupom = new cuponsModel(cupom)
     const usuario = await usuariosModel.findById(usuarioId)
   
-    usuario.cupons.push(novoCupom)
-    usuario.save((error) => {
-      if (error) {
-        return response.status(500).send(error)
-      }
-  
-      return response.status(201).send(cupom)
-    })
+    let pontos_atualizados = (usuario.pontos_disponiveis) - (cupom.valor_pontos)
+   console.log(pontos_atualizados)
+
+    if (pontos_atualizados > 0) {
+        const usuario = await usuariosModel.findOneAndUpdate(
+            { _id: usuarioId},
+            {
+                $set: {
+                    pontos_disponiveis: pontos_atualizados
+                }
+            },
+            options,
+            (err, usuario) => {
+                if (err) {
+                    console.log("Something wrong when updating data!");
+                }
+            
+                return usuario;
+            }
+        )
+        usuario.cupons.push(novoCupom)
+        usuario.save((error) => {
+            if (error) {
+                return response.status(500).send(error)
+            }
+            return response.status(201).send(usuario)
+            })
+            }
+            else {
+                return response.status(404).send('Seus pontos são insuficientes para adicionar o cupom!')
+    }
   }
 
   const getCupons = async (request, response) => {
@@ -59,10 +82,10 @@ const addCupom = async (request, response) => {
         }
   
         if (usuario) {
-          return response.status(200).send(usuario)
+          return getCupomById(request, response)
         }
   
-        return response.status(404).send('Usuário não encontrado.')
+        return response.status(404).send('Cupom não encontrado.')
       }
     )
   }
@@ -80,5 +103,5 @@ module.exports = {
     addCupom,
     getCupons,
     updateCupom,
-    getCupomById
+    getCupomById,
 }
