@@ -72,7 +72,7 @@ const add = (request, response) => {
       }
   
       if (usuario) {
-        return response.status(200).send('Usuário removido. Id: ' + id)
+        return response.status(200).send('Usuário removido. Id: ' + id + '. Nome: ' + usuario.nome)
       }
   
       return response.status(404).send('Usuário não encontrado.')

@@ -22,6 +22,23 @@ const addCupom = async (request, response) => {
     })
   }
 
+  const getCupons = async (request, response) => {
+
+    const usuarioId = request.params.usuarioId
+    await usuariosModel.findById(usuarioId, (error, usuario) => {
+      if (error) {
+        return response.status(500).send(error)
+      }
+  
+      if (usuario) {
+        return response.status(200).send(usuario.cupons)
+      }
+  
+      return response.status(404).send('Usuário não encontrado.')
+    })
+  }
+
 module.exports = {
-    addCupom
+    addCupom,
+    getCupons
 }
