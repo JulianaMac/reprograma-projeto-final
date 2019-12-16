@@ -63,11 +63,28 @@ const add = (request, response) => {
     )
   }
 
+  const remove = (request, response) => {
+    const id = request.params.id
+  
+    usuariosModel.findByIdAndDelete(id, (error, usuario) => {
+      if (error) {
+        return response.status(500).send(error)
+      }
+  
+      if (usuario) {
+        return response.status(200).send('Usuário removido. Id: ' + id)
+      }
+  
+      return response.status(404).send('Usuário não encontrado.')
+    })
+  }
+
   module.exports = {
     add,
     getAll,
     getById,
-    update
+    update,
+    remove
   }
 
   
