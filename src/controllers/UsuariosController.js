@@ -24,9 +24,26 @@ const add = (request, response) => {
     })
   }
 
+  const getById = (request, response) => {
+    const id = request.params.id
+  
+    return usuariosModel.findById(id, (error, usuario) => {
+      if (error) {
+        return response.status(500).send(error)
+      }
+  
+      if (usuario) {
+      return response.status(200).send(usuario)
+      }
+  
+      return response.status(404).send('Usuario não encontrado.')
+    })
+  }
+
   module.exports = {
     add,
-    getAll
+    getAll,
+    getById
   }
 
   
