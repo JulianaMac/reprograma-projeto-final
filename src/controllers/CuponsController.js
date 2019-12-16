@@ -67,8 +67,18 @@ const addCupom = async (request, response) => {
     )
   }
 
+  const getCupomById = async (request, response) => {
+    const usuarioId = request.params.usuarioId
+    const cupomId = request.params.cupomId
+    const usuario = await usuariosModel.findById(usuarioId)
+    const cupom = usuario.cupons.find(cupom => cupom._id == cupomId)
+  
+    return response.status(200).send(cupom)
+  }
+
 module.exports = {
     addCupom,
     getCupons,
-    updateCupom
+    updateCupom,
+    getCupomById
 }
