@@ -24,7 +24,7 @@ const addCupom = async (request, response) => {
 
   const getCupons = async (request, response) => {
 
-    const usuarioId = request.params.usuarioId
+    const usuarioId = request.params.id
     await usuariosModel.findById(usuarioId, (error, usuario) => {
       if (error) {
         return response.status(500).send(error)
@@ -38,7 +38,37 @@ const addCupom = async (request, response) => {
     })
   }
 
+    const updateCupom = async (request, response) => {
+
+    const usuarioId = request.params.usuarioId
+    const cupomId = request.params.cupomId
+    const options = { new: true }
+
+   usuariosModel.findOneAndUpdate(
+      { _id: usuarioId, 'cupons._id': cupomId },
+      {
+        $set: {
+          'cupons.$.nome': request.body.nome,
+          'cupons.$.valor_pontos': request.body.valor_pontos
+        }
+      },
+      options,
+      (error, usuario) => {
+        if (error) {
+          return response.status(500).send(error)
+        }
+  
+        if (usuario) {
+          return response.status(200).send(usuario)
+        }
+  
+        return response.status(404).send('Usuário não encontrado.')
+      }
+    )
+  }
+
 module.exports = {
     addCupom,
-    getCupons
+    getCupons,
+    updateCupom
 }
