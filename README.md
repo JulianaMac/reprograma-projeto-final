@@ -7,7 +7,7 @@ Através dessa API será possível criar usuários, o qual deverão inserir/inte
 ## Instalação:
 
 ```
-git https://github.com/JulianaMac/reprograma-projeto-final.git
+git clone https://github.com/JulianaMac/reprograma-projeto-final.git
 cd reprograma-projeto-final
 npm install
 npm start
