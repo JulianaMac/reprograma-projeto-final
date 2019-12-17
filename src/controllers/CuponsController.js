@@ -32,12 +32,12 @@ const addCupom = async (request, response) => {
             return response.status(201).send(usuario)
         })
     }else {
-        return response.status(404).send('Seus pontos são insuficientes para pegar esse cupom!')
+        return response.status(403).send('Seus pontos são insuficientes para pegar esse cupom!')
     }
 }
 const getCupons = async (request, response) => {
 
-    const usuarioId = request.params.id
+    const usuarioId = request.params.usuarioId
     await usuariosModel.findById(usuarioId, (error, usuario) => {
         if (error) {
             return response.status(500).send(error)
@@ -105,5 +105,5 @@ module.exports = {
     getCupons,
     updateCupom,
     getCupomById,
-    remove
+    removeCupom
 }
