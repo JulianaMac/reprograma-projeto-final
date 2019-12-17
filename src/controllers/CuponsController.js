@@ -105,5 +105,5 @@ module.exports = {
     getCupons,
     updateCupom,
     getCupomById,
-    removeCupom
+    remove
 }
