@@ -26,7 +26,7 @@ const addCupom = async (request, response) => {
             options,
             (err, usuario) => {
                 if (err) {
-                    console.log("Something wrong when updating data!");
+                    return response.status(500).send(error)
                 }
             
                 return usuario;
@@ -99,9 +99,30 @@ const addCupom = async (request, response) => {
     return response.status(200).send(cupom)
   }
 
+  const removeCupom = async (request, response) => {
+    const usuarioId = request.params.usuarioId
+    const cupomId = request.params.cupomId
+
+    const usuario = await usuariosModel.findById(usuarioId)
+    const cupom = usuario.cupons.find(cupom => cupom._id == cupomId)
+    const options = {new: true}
+  
+    usuario.cupons.remove(cupom)
+    usuario.save((error) => {
+        if (error) {
+        return response.status(500).send(error)
+      }
+      if (cupom) {
+        return response.status(200).send('Cupom removido. ' + cupom)
+      }
+      return response.status(404).send('Cupom não encontrado.')
+    })
+  }
+
 module.exports = {
     addCupom,
     getCupons,
     updateCupom,
     getCupomById,
+    removeCupom
 }
