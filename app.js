@@ -11,11 +11,9 @@ app.use(bodyParser.json())
 app.use('/usuarios', usuarios)
 app.use('/cupons', cupons)
 
-
 app.get('/', (request, response) => {
-  response.send('Olá, mundo!')
+  response.send('Easy Fun - Troque seus pontos por cupons!')
 })
-
 
 app.listen(PORT)
 console.info(`Rodando na porta ${PORT}`)
